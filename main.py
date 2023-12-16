@@ -8,7 +8,7 @@ from objects.groups import (
     JumppudGroup, CoinGroup,EndGroup,
     OrbGroup,SpeedGroup,SpikeGroup,PortalGroup
 )
-from test_menus.ground import Ground
+from surfaces.ground import Ground
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 bg = pygame.image.load('./resource/backgrounds/bg1.png')
