@@ -1,4 +1,5 @@
 import pygame
+from objects.constants import LEFTBUTTON
 
 
 class Button:
@@ -9,7 +10,7 @@ class Button:
         self.font = font
 
     def is_clicked(self, event):
-        return event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and self.rect.collidepoint(event.pos)
+        return event.type == pygame.MOUSEBUTTONDOWN and event.button == LEFTBUTTON and self.rect.collidepoint(event.pos)
 
     def draw(self, surface):
         pygame.draw.rect(surface, (200, 200, 200), self.rect)

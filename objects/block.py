@@ -11,6 +11,4 @@ class Block(GDObject):
         self.rect.x = x
         self.rect.y = y
         self.hitbox = pygame.rect.Rect(self.rect.x, self.rect.y, self.rect.w, self.rect.h)
-        self.die_from_collision = (True, False, True, True)
-        self.dx = 0
-        self.dy = 0
+        self.die_from_collision = (True, True, False)

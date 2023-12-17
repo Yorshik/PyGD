@@ -1,10 +1,10 @@
 import pygame
-from objects.functions import load_image
 
 
 class GDPlayer(pygame.sprite.Sprite):
     def __init__(self, *group):
         super().__init__(*group)
+        from objects.functions import load_image
         self.image = load_image('icons/standard.png')
         self.rect = self.image.get_rect()
         self.rect.x = 300

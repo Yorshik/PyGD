@@ -1,8 +1,17 @@
-import sys
-import os
-import pygame
-from objects.board import Board
 import csv
+import os
+import sys
+
+import pygame
+
+from objects.board import Board
+from objects.constants import OFFSET, FPS, WIDTH, HEIGHT, SPEED
+from objects.cube import Cube
+from objects.groups import (
+    PortalGroup, SpeedGroup, SpikeGroup, OrbGroup, EndGroup, CoinGroup, BlockGroup, JumppudGroup,
+    PlayerGroup, DHGroup
+)
+from surfaces.ground import Ground
 
 
 def load_image(name, colorkey=None):
@@ -21,22 +30,71 @@ def load_image(name, colorkey=None):
     return image
 
 
-def load_level(filename, blockgroup, spikegroup, orbgroup, endgroup, jumppudgroup, DHgroup, portalgroup, coingroup, speedgroup, ):
+def load_level(
+        filename, blockgroup, spikegroup, orbgroup, endgroup, jumppudgroup, DHgroup, portalgroup, coingroup,
+        speedgroup, ):
     from objects.block import Block
     from objects.end import End
     with open('./' + filename) as csvfile:
         reader = list(csv.reader(csvfile, delimiter=';'))
     board = Board(0, 0)
-    board.set_view(0, 0, 64)
     matrix = [[[None] for _ in range(len(reader))] for _ in range(len(reader[0]))]
+    board.board = matrix
+    board.set_view()
     for i, row in enumerate(reader):
         for j, el in enumerate(row):
             match el:
                 case ' ':
-                    matrix[j][i] = 0
+                    board.board[j][i] = 0
                 case 'b':
-                    matrix[j][i] = Block(blockgroup, x=i*64, y=j*64)
+                    board.board[j][i] = Block(blockgroup, x=j * 64, y=i * 64 - OFFSET)
                 case 'e':
-                    matrix[j][i] = End(endgroup)
-    board.board = matrix
+                    board.board[j][i] = End(endgroup)
     return board
+
+
+def run_game():
+    screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.SCALED, vsync=1)
+    bg = pygame.image.load('./resource/backgrounds/bg1.png')
+    ground = Ground()
+    player_group = PlayerGroup()
+    DH_group = DHGroup()
+    block_group = BlockGroup()
+    jumppud_group = JumppudGroup()
+    coin_group = CoinGroup()
+    end_group = EndGroup()
+    orb_group = OrbGroup()
+    speed_group = SpeedGroup()
+    spike_group = SpikeGroup()
+    portal_group = PortalGroup()
+    board = load_level(
+        'data/levels/test.csv',
+        blockgroup=block_group,
+        spikegroup=spike_group,
+        speedgroup=speed_group,
+        orbgroup=orb_group,
+        jumppudgroup=jumppud_group,
+        portalgroup=portal_group,
+        coingroup=coin_group,
+        endgroup=end_group,
+        DHgroup=DH_group
+    )
+    player = Cube(player_group, y=200)
+    running = True
+    clock = pygame.time.Clock()
+
+    while running:
+        screen.blit(bg, (0, 0))
+        screen.blit(ground, [0, HEIGHT - 100])
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+        board.left -= SPEED / FPS
+        board.render(screen)
+        block_group.draw(screen)
+        player_group.update()
+        player_group.draw(screen)
+        clock.tick(FPS)
+        pygame.display.update()
+    pygame.quit()
+    sys.exit()
