@@ -13,6 +13,8 @@ from objects.groups import (
 )
 from surfaces.ground import Ground
 
+from PIL import Image
+
 
 def load_image(name, colorkey=None):
     fullname = os.path.join('./resource/', name)
@@ -51,6 +53,25 @@ def load_level(
                 case 'e':
                     board.board[j][i] = End(endgroup)
     return board
+
+
+# Обрезка объектов
+def crop_image(name, x, y, size):
+    fullname = os.path.join('./resource/icons/', name)
+    if not os.path.isfile(fullname):
+        print(f"Файл с изображением '{fullname}' не найден")
+        sys.exit()
+    image = Image.open(fullname)
+    texture = image.crop((x, y, x + size, y + size))
+    return texture
+
+
+# Конвертирование картинки из pil в pygame
+def convert(pil_image):
+    pil_image = pil_image.convert('RGBA')
+    image_data = pil_image.tobytes('raw', 'RGBA')
+    width, height = pil_image.size
+    return pygame.image.fromstring(image_data, (width, height), 'RGBA')
 
 
 def run_game():
