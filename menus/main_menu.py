@@ -1,7 +1,7 @@
 import pygame
 from objects.buttons import Button
 import sys
-from objects.Label import Label
+from objects.label import Label
 
 
 class MainMenu(pygame.surface.Surface):

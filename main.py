@@ -1,7 +1,7 @@
 import pygame
 
 from objects.constants import FPS
-from menus.mainmenu import MainMenu
+from menus.main_menu import MainMenu
 
 
 if __name__ == '__main__':

@@ -1,5 +1,6 @@
 import pygame
 
+
 class Label(pygame.sprite.Sprite):
     def __init__(self, text, position, font_size=20, font_color=(0, 0, 0)):
         super().__init__()

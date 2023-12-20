@@ -11,7 +11,7 @@ from objects.groups import (
     PortalGroup, SpeedGroup, SpikeGroup, OrbGroup, EndGroup, CoinGroup, BlockGroup, JumppudGroup,
     PlayerGroup, DHGroup
 )
-from surfaces.ground import Ground
+from objects.ground import Ground
 
 from PIL import Image
 
