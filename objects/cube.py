@@ -8,7 +8,7 @@ class Cube(GDPlayer):
     def __init__(self, *group, y):
         super().__init__(*group)
         from objects.functions import load_image
-        self.image = load_image('icons/cube1.png')
+        self.image = load_image('player_icons/cube1.png')
         self.rect = self.image.get_rect()
         self.rect.x = 320
         self.rect.y = y

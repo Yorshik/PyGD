@@ -15,13 +15,13 @@ class MainMenu(pygame.surface.Surface):
 
         self.all_sprites = pygame.sprite.Group()
 
-        self.music_image = Button("resource\icons\GJ_music_on.png", (20, 510), self.toggle_music, (80, 80))
-        self.settings_button = Button("resource\icons\GJ_settings.png", (700, 10), self.settings, (80, 80))
+        self.music_image = Button("resource\images\GJ_music_on.png", (20, 510), self.toggle_music, (80, 80))
+        self.settings_button = Button("resource\images\GJ_settings.png", (700, 10), self.settings, (80, 80))
 
         self.buttons = [
-            Button("resource\icons\GJ_play_btn.png", (220, 280), self.start_game, (150, 150)),
-            Button("resource\icons\GJ_profile.png", (410, 280), self.profile, (150, 150)),
-            Button("resource\icons\GJ_exit.png", (20, 10), sys.exit, (80, 80)),
+            Button("resource\images\GJ_play_btn.png", (220, 280), self.start_game, (150, 150)),
+            Button("resource\images\GJ_profile.png", (410, 280), self.profile, (150, 150)),
+            Button("resource\images\GJ_exit.png", (20, 10), sys.exit, (80, 80)),
             self.settings_button,
             self.music_image
         ]
@@ -34,7 +34,7 @@ class MainMenu(pygame.surface.Surface):
 
         self.all_sprites.add(self.name_label)
 
-        self.music = "resource\misucs\menu.mp3"
+        self.music = "resource\musics\menu.mp3"
         pygame.mixer.init()
         pygame.mixer.music.load(self.music)
         pygame.mixer.music.set_volume(0.1)  # Устанавливаем начальную громкость

@@ -5,7 +5,7 @@ class GDPlayer(pygame.sprite.Sprite):
     def __init__(self, *group):
         super().__init__(*group)
         from objects.functions import load_image
-        self.image = load_image('icons/standard.png')
+        self.image = load_image('blocks/standard.png')
         self.rect = self.image.get_rect()
         self.rect.x = 300
         self.ay = 0
