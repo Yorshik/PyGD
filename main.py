@@ -10,10 +10,9 @@ if __name__ == '__main__':
     from objects.groups import *
     objects.constants.init_status()
     running = True
-    screen = pygame.display.set_mode((800, 600), pygame.SCALED, vsync=1)
+    screen = pygame.display.set_mode((1500, 1500/16*9), pygame.SCALED, vsync=1)
     clock = pygame.time.Clock()
     pygame.init()
-    # cur_status = STATUS
     main_menu = MainMenu()
     bg = pygame.image.load('./resource/backgrounds/bg1.png')
     ground = Ground()
@@ -39,7 +38,7 @@ if __name__ == '__main__':
         endgroup=end_group,
         DHgroup=DH_group
     )
-    player = Cube(player_group, y=200)
+    player = Cube(player_group, y=1500/16*9-150)
 
     DICT = {
         'main_menu': main_menu,
@@ -57,7 +56,6 @@ if __name__ == '__main__':
         'level_bg': bg,
         'board': board
     }
-
     while running:
         draw(screen, DICT)
         for event in pygame.event.get():

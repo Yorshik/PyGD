@@ -81,12 +81,13 @@ def draw(scr: pygame.Surface, dct):
         case 'MAIN':
             dct['main_menu'].draw(scr)
         case 'GAME':
+            # scr = pygame.transform.scale(scr, [WIDTH, HEIGHT])
             scr.blit(dct['level_bg'], (0, 0))
             scr.blit(dct['ground'], [0, HEIGHT - 100])
-            dct['board'].left -= SPEED / FPS
             dct['board'].render(scr)
             dct['block_group'].draw(scr)
             dct['player_group'].update()
             dct['player_group'].draw(scr)
+            return scr
         case Err:
             raise Exception(Err + ' Something went wrong')

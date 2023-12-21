@@ -16,6 +16,8 @@ class Board:
         self.top = HEIGHT - 100 - self.cell_size * len(self.board[0])
 
     def render(self, scr):
+        dx = int(SPEED / FPS)
+        self.left -= dx
         for i, row in enumerate(self.board):
             for j, el in enumerate(row):
                 pygame.draw.rect(scr, (255, 255, 255),
@@ -23,7 +25,7 @@ class Board:
                                   self.cell_size], width=1
                                  )
                 if el:
-                    el.rect.x -= SPEED / FPS
+                    el.rect.x -= dx
 
     def get_cell(self, pos):
         if self.left <= pos[0] <= len(self.board) * self.cell_size + self.left and self.top <= pos[1] <= len(
