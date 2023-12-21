@@ -5,3 +5,9 @@ WIDTH = 1500
 HEIGHT = 1500/16*9
 SPEED = 300
 OFFSET = 25
+STATUS = None
+
+
+def init_status():
+    global STATUS
+    STATUS = 'MAIN'

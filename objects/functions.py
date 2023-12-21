@@ -3,17 +3,19 @@ import os
 import sys
 
 import pygame
+from PIL import Image
 
 from objects.board import Board
-from objects.constants import OFFSET, FPS, WIDTH, HEIGHT, SPEED
+from objects.constants import OFFSET, FPS, WIDTH, HEIGHT, SPEED, init_status
 from objects.cube import Cube
+from objects.ground import Ground
 from objects.groups import (
     PortalGroup, SpeedGroup, SpikeGroup, OrbGroup, EndGroup, CoinGroup, BlockGroup, JumppudGroup,
     PlayerGroup, DHGroup
 )
-from objects.ground import Ground
+import objects.constants
+objects.constants.init_status()
 
-from PIL import Image
 
 
 def load_image(name, colorkey=None):
@@ -74,48 +76,17 @@ def convert(pil_image):
     return pygame.image.fromstring(image_data, (width, height), 'RGBA')
 
 
-def run_game():
-    screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.SCALED, vsync=1)
-    bg = pygame.image.load('./resource/backgrounds/bg1.png')
-    ground = Ground()
-    player_group = PlayerGroup()
-    DH_group = DHGroup()
-    block_group = BlockGroup()
-    jumppud_group = JumppudGroup()
-    coin_group = CoinGroup()
-    end_group = EndGroup()
-    orb_group = OrbGroup()
-    speed_group = SpeedGroup()
-    spike_group = SpikeGroup()
-    portal_group = PortalGroup()
-    board = load_level(
-        'data/levels/test.csv',
-        blockgroup=block_group,
-        spikegroup=spike_group,
-        speedgroup=speed_group,
-        orbgroup=orb_group,
-        jumppudgroup=jumppud_group,
-        portalgroup=portal_group,
-        coingroup=coin_group,
-        endgroup=end_group,
-        DHgroup=DH_group
-    )
-    player = Cube(player_group, y=200)
-    running = True
-    clock = pygame.time.Clock()
-
-    while running:
-        screen.blit(bg, (0, 0))
-        screen.blit(ground, [0, HEIGHT - 100])
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-        board.left -= SPEED / FPS
-        board.render(screen)
-        block_group.draw(screen)
-        player_group.update()
-        player_group.draw(screen)
-        clock.tick(FPS)
-        pygame.display.update()
-    pygame.quit()
-    sys.exit()
+def draw(scr: pygame.Surface, dct):
+    match objects.constants.STATUS:
+        case 'MAIN':
+            dct['main_menu'].draw(scr)
+        case 'GAME':
+            scr.blit(dct['level_bg'], (0, 0))
+            scr.blit(dct['ground'], [0, HEIGHT - 100])
+            dct['board'].left -= SPEED / FPS
+            dct['board'].render(scr)
+            dct['block_group'].draw(scr)
+            dct['player_group'].update()
+            dct['player_group'].draw(scr)
+        case Err:
+            raise Exception(Err + ' Something went wrong')

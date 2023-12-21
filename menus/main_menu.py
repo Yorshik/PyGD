@@ -2,6 +2,8 @@ import pygame
 from objects.buttons import Button
 import sys
 from objects.label import Label
+import objects.constants
+objects.constants.init_status()
 
 
 class MainMenu(pygame.surface.Surface):
@@ -34,16 +36,15 @@ class MainMenu(pygame.surface.Surface):
 
         self.all_sprites.add(self.name_label)
 
-        self.music = "resource\musics\menu.mp3"
+        self.music = r"resource\musics\menu.mp3"
         pygame.mixer.init()
         pygame.mixer.music.load(self.music)
         pygame.mixer.music.set_volume(0.1)  # Устанавливаем начальную громкость
         pygame.mixer.music.play(-1)
 
     def start_game(self):
-        pygame.mixer.music.stop()
-        from objects.functions import run_game
-        run_game()
+
+        objects.constants.STATUS = 'GAME'
 
     def profile(self):
         pass
@@ -51,12 +52,12 @@ class MainMenu(pygame.surface.Surface):
     def toggle_music(self):
         if pygame.mixer.music.get_volume() == 0.0:
             self.all_sprites.remove(self.music_image)
-            self.music_image = Button("resource\icons\GJ_music_on.png", (20, 510), self.toggle_music, (80, 80))
+            self.music_image = Button(r"resource\images\GJ_music_on.png", (20, 510), self.toggle_music, (80, 80))
             self.all_sprites.add(self.music_image)
             pygame.mixer.music.set_volume(0.1)  # Восстанавливаем начальную громкость
         else:
             self.all_sprites.remove(self.music_image)
-            self.music_image = Button("resource\icons\GJ_music_off.png", (20, 510), self.toggle_music, (80, 80))
+            self.music_image = Button(r"resource\images\GJ_music_off.png", (20, 510), self.toggle_music, (80, 80))
             self.all_sprites.add(self.music_image)
             pygame.mixer.music.set_volume(0.0)  # Устанавливаем громкость на 0 (выключаем звук)
         self.draw()
@@ -77,10 +78,3 @@ class MainMenu(pygame.surface.Surface):
         self.all_sprites.draw(self.image)
         surface.blit(self.background, (0, 0))
         surface.blit(self.image, (0, 0))
-
-
-
-
-
-
-
