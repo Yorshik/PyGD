@@ -8,14 +8,22 @@ class Cube(GDPlayer):
     def __init__(self, *group, y):
         super().__init__(*group)
         from objects.functions import load_image
-        self.image = load_image('player_icons/cube1.png')
-        self.rect = self.image.get_rect()
+        self.image = load_image('player_icons/cube1.png').convert_alpha()
+        self.orig = self.image
+        self.rect = self.image.get_rect(center=(32, 32))
         self.rect.x = 320
         self.rect.y = y
         self.ay = AY
         self.vy = 0
         self.on_ground = True
         self.gravity = 1
+        self.angle = 0
+
+    def rotate(self):
+        direction = pygame.math.Vector2(self.rect.x + self.rect.w//2, self.rect.y + self.rect.y//2)
+        angle = direction.as_polar()[1]
+        self.image = pygame.transform.rotate(self.orig, -angle + 90 - self.angle)
+        # self.rect = self.image.get_rect(center=self.rect.center)
 
     def update(self, *args, **kwargs):
         mouse = pygame.mouse.get_pressed()
@@ -31,5 +39,15 @@ class Cube(GDPlayer):
             self.vy = 0
             self.on_ground = True
         if not self.on_ground:
-            self.image = pygame.transform.rotate(self.image, 90 / FPS)
-            print(self.image.get_rect())
+            self.angle += 5
+            self.rotate()
+        else:
+            if self.angle < 45 or self.angle > 315:
+                self.image = self.orig
+            elif 45 < self.angle <= 135:
+                self.image = pygame.transform.rotate(self.orig, -90)
+            elif 135 < self.angle <= 225:
+                self.image = pygame.transform.rotate(self.orig, -180)
+            elif 225 < self.angle <= 315:
+                self.image = pygame.transform.rotate(self.orig, -270)
+            self.angle = 0
