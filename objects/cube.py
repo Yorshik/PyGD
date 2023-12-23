@@ -22,7 +22,7 @@ class Cube(GDPlayer):
         keys = pygame.key.get_pressed()
         if mouse[LEFTBUTTON - 1] or keys[pygame.K_SPACE] or keys[pygame.K_UP]:
             if self.on_ground:
-                self.vy = 750 * self.gravity
+                self.vy = 870 * self.gravity
         self.rect.y = min([self.rect.y - self.vy / FPS, int(HEIGHT - 100 - self.rect.h)])
         if self.rect.y != int(HEIGHT - 100 - self.rect.h):
             self.vy = max([self.vy - self.ay * self.gravity, -1000 * self.gravity])
@@ -30,3 +30,6 @@ class Cube(GDPlayer):
         else:
             self.vy = 0
             self.on_ground = True
+        if not self.on_ground:
+            self.image = pygame.transform.rotate(self.image, 90 / FPS)
+            print(self.image.get_rect())

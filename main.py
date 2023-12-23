@@ -1,5 +1,49 @@
-# from objects.constants import STATUS
+import copy
+import time
+
+import pygame.sprite
+
 import objects.constants
+
+
+def handle_collision(
+        p, blockgroup, spikegroup, orbgroup, endgroup, jumppudgroup, DHgroup, portalgroup, coingroup,
+        speedgroup, ):
+    if lst := pygame.sprite.spritecollide(p, blockgroup, False):
+        for el in lst:
+            if p.rect.x + p.rect.w > el.rect.x and p.rect.y + p.rect.h - 10 > el.rect.y:
+                if objects.constants.STATUS != "DIED":
+                    objects.constants.STATUS = 'DIED'
+                    return 'DIED'
+            else:
+                p.vy = 0
+                p.on_ground = True
+                p.rect.y = el.rect.y - p.rect.h
+    if pygame.sprite.spritecollide(p, spikegroup, False):
+        objects.constants.STATUS = "DIED"
+    if pygame.sprite.spritecollide(p, orbgroup, False):
+        pass
+    if pygame.sprite.spritecollide(p, endgroup, False):
+        pass
+    if pygame.sprite.spritecollide(p, jumppudgroup, False):
+        pass
+    if pygame.sprite.spritecollide(p, DHgroup, False):
+        pass
+    if pygame.sprite.spritecollide(p, portalgroup, False):
+        pass
+    if pygame.sprite.spritecollide(p, coingroup, False):
+        pass
+    if pygame.sprite.spritecollide(p, speedgroup, False):
+        pass
+    return objects.constants.STATUS
+
+
+def reset(dct):
+    dct['player'].rect.y = 1500/16*9 - 150
+    dct['board'].left = 0
+    dct['board'].reset()
+    objects.constants.STATUS = 'GAME'
+
 
 if __name__ == '__main__':
     from menus.main_menu import MainMenu
@@ -8,9 +52,10 @@ if __name__ == '__main__':
     from objects.functions import draw, load_level
     from objects.ground import Ground
     from objects.groups import *
+
     objects.constants.init_status()
     running = True
-    screen = pygame.display.set_mode((1500, 1500/16*9), pygame.SCALED, vsync=1)
+    screen = pygame.display.set_mode((1500, 1500 / 16 * 9), pygame.SCALED, vsync=1)
     clock = pygame.time.Clock()
     pygame.init()
     main_menu = MainMenu()
@@ -38,7 +83,8 @@ if __name__ == '__main__':
         endgroup=end_group,
         DHgroup=DH_group
     )
-    player = Cube(player_group, y=1500/16*9-150)
+    copy_of_board = copy.copy(board)
+    player = Cube(player_group, y=1500 / 16 * 9 - 150)
 
     DICT = {
         'main_menu': main_menu,
@@ -54,15 +100,26 @@ if __name__ == '__main__':
         'endgroup': end_group,
         'DHgroup': DH_group,
         'level_bg': bg,
-        'board': board
+        'board': board,
+        'copy_of_board': copy_of_board,
+        'time': time.time(),
+        'resetter': lambda: reset(DICT),
+        'status': 'MAIN'
     }
     while running:
+        if objects.constants.STATUS != 'DIED':
+            DICT['time'] = time.time()
+        objects.constants.STATUS = handle_collision(
+            player, blockgroup=block_group, spikegroup=spike_group, speedgroup=speed_group, jumppudgroup=jumppud_group,
+            coingroup=coin_group, portalgroup=portal_group, endgroup=end_group, DHgroup=DH_group, orbgroup=orb_group
+            )
         draw(screen, DICT)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
             main_menu.handle_event(event)
         # screen.blit(main_menu, (0,0))
+
         pygame.display.flip()
         clock.tick(FPS)
     pygame.quit()

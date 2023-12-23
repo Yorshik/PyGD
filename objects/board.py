@@ -1,5 +1,7 @@
+import copy
+
 import pygame
-from objects.constants import HEIGHT, FPS, SPEED
+from objects.constants import HEIGHT, FPS, SPEED, OFFSET
 
 
 class Board:
@@ -12,8 +14,21 @@ class Board:
         self.cell_size = 64
         self.clicked_cell = None
 
+    def __copy__(self):
+        board = Board(0, 0)
+        board.board = copy.copy(self.board)
+        board.set_view()
+        return board
+
     def set_view(self):
         self.top = HEIGHT - 100 - self.cell_size * len(self.board[0])
+
+    def reset(self):
+        for i, row in enumerate(self.board):
+            for j, el in enumerate(row):
+                if el:
+                    el.rect.x = i * 64
+                    el.rect.y = j * 64  - OFFSET
 
     def render(self, scr):
         dx = int(SPEED / FPS)

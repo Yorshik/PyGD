@@ -43,7 +43,6 @@ class MainMenu(pygame.surface.Surface):
         pygame.mixer.music.play(-1)
 
     def start_game(self):
-
         objects.constants.STATUS = 'GAME'
 
     def profile(self):

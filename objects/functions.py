@@ -1,6 +1,8 @@
+import copy
 import csv
 import os
 import sys
+import time
 
 import pygame
 from PIL import Image
@@ -15,7 +17,6 @@ from objects.groups import (
 )
 import objects.constants
 objects.constants.init_status()
-
 
 
 def load_image(name, colorkey=None):
@@ -89,5 +90,9 @@ def draw(scr: pygame.Surface, dct):
             dct['player_group'].update()
             dct['player_group'].draw(scr)
             return scr
+        case 'DIED':
+            dct['board'] = copy.copy(dct['copy_of_board'])
+            dct['resetter']()
+            time.sleep(1)
         case Err:
             raise Exception(Err + ' Something went wrong')
