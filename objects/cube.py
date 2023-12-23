@@ -46,10 +46,8 @@ class Cube(GDPlayer):
         else:
             self.vy = 0
             self.on_ground = True
-
         if not self.on_ground and not self.on_block:
             self.angle += 5
-            print(self.angle)
             self.rotate()
         else:
             if self.angle < 45 or self.angle > 315:
@@ -57,7 +55,7 @@ class Cube(GDPlayer):
             elif 45 < self.angle <= 135:
                 self.image = pygame.transform.rotate(self.orig, -90)
             elif 135 < self.angle <= 225:
-                self.image = pygame.transform.rotate(self.orig, 270)
+                self.image = pygame.transform.rotate(self.orig, -180)
             elif 225 < self.angle <= 315:
                 self.image = pygame.transform.rotate(self.orig, -270)
             self.angle = 0

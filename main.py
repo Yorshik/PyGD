@@ -9,7 +9,6 @@ import objects.constants
 def handle_collision(
         p, blockgroup, spikegroup, orbgroup, endgroup, jumppudgroup, DHgroup, portalgroup, coingroup,
         speedgroup, ):
-    pygame.sprite.collide_rect()
     if lst := pygame.sprite.spritecollide(p, blockgroup, False):
         for el in lst:
             if p.rect.x + p.rect.w > el.rect.x and p.rect.y + p.rect.h - 10 > el.rect.y:
