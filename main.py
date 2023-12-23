@@ -9,6 +9,7 @@ import objects.constants
 def handle_collision(
         p, blockgroup, spikegroup, orbgroup, endgroup, jumppudgroup, DHgroup, portalgroup, coingroup,
         speedgroup, ):
+    pygame.sprite.collide_rect()
     if lst := pygame.sprite.spritecollide(p, blockgroup, False):
         for el in lst:
             if p.rect.x + p.rect.w > el.rect.x and p.rect.y + p.rect.h - 10 > el.rect.y:
@@ -17,8 +18,10 @@ def handle_collision(
                     return 'DIED'
             else:
                 p.vy = 0
-                p.on_ground = True
-                p.rect.y = el.rect.y - p.rect.h
+                p.set_on_block(True)
+                p.block_y = el.rect.y
+    else:
+        p.set_on_block(False)
     if pygame.sprite.spritecollide(p, spikegroup, False):
         objects.constants.STATUS = "DIED"
     if pygame.sprite.spritecollide(p, orbgroup, False):
