@@ -21,11 +21,6 @@ class Cube(GDPlayer):
         self.angle = 0
         self.block_y = None
 
-    def rotate(self):
-        direction = pygame.math.Vector2(self.rect.x + self.rect.w//2, self.rect.y + self.rect.y//2)
-        angle = direction.as_polar()[1]
-        self.image = pygame.transform.rotate(self.orig, -angle + 90 - self.angle)
-
     def set_on_block(self, boolean):
         self.on_block = boolean
 
@@ -46,16 +41,20 @@ class Cube(GDPlayer):
         else:
             self.vy = 0
             self.on_ground = True
-        if not self.on_ground and not self.on_block:
+        if not self.on_block and not self.on_ground:
             self.angle += 5
-            self.rotate()
+            self.image = pygame.transform.rotate(self.orig, -self.angle)
         else:
-            if self.angle < 45 or self.angle > 315:
-                self.image = self.orig
-            elif 45 < self.angle <= 135:
-                self.image = pygame.transform.rotate(self.orig, -90)
-            elif 135 < self.angle <= 225:
-                self.image = pygame.transform.rotate(self.orig, -180)
-            elif 225 < self.angle <= 315:
-                self.image = pygame.transform.rotate(self.orig, -270)
-            self.angle = 0
+            if self.angle:
+                if self.angle < 45 or self.angle > 315:
+                    self.image = self.orig
+                    self.angle = 0
+                elif 45 <= self.angle <= 135:
+                    self.image = pygame.transform.rotate(self.orig, -90)
+                    self.angle = 90
+                elif 135 <= self.angle < 225:
+                    self.image = pygame.transform.rotate(self.orig, -180)
+                    self.angle = 180
+                elif 225 <= self.angle < 315:
+                    self.image = pygame.transform.rotate(self.orig, -270)
+                    self.angle = 270
