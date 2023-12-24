@@ -1,3 +1,5 @@
+import time
+
 import pygame
 from objects.buttons import Button
 import sys
@@ -43,6 +45,7 @@ class MainMenu(pygame.surface.Surface):
         pygame.mixer.music.play(-1)
 
     def start_game(self):
+        time.sleep(0.3)
         objects.constants.STATUS = 'GAME'
 
     def profile(self):
