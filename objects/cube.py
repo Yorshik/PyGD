@@ -1,11 +1,10 @@
 import pygame
-from objects.GDPlayer import GDPlayer
-from objects.constants import LEFTBUTTON, FPS, AY, HEIGHT
+from objects.constants import LEFTBUTTON, FPS, CUBEAY, HEIGHT
 
 
-#TODO comments
-class Cube(GDPlayer):
-    def __init__(self, *group, y):
+# TODO comments
+class Cube(pygame.sprite.Sprite):
+    def __init__(self, *group, y=0):
         super().__init__(*group)
         from objects.functions import load_image
         self.image = load_image('player_icons/cube1.png').convert_alpha()
@@ -14,15 +13,15 @@ class Cube(GDPlayer):
         self.on_block = False
         self.rect.x = 320
         self.rect.y = y
-        self.ay = AY
+        self.ay = CUBEAY
         self.vy = 0
         self.on_ground = True
         self.gravity = 1
         self.angle = 0
         self.block_y = None
 
-    def set_on_block(self, boolean):
-        self.on_block = boolean
+    def set_on_block(self, state):
+        self.on_block = state
 
     def update(self, *args, **kwargs):
         mouse = pygame.mouse.get_pressed()

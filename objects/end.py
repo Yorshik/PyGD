@@ -1,7 +1,7 @@
 import pygame
-from objects.GDObject import GDObject
 
 
-class End(GDObject):
-    def __init__(self, *group):
-        super().__init__(*group, type_of_object='ending')
+class End(pygame.sprite.Sprite):
+    def __init__(self, *group, x=100, y=100):
+        super().__init__(*group)
+        self.rect = pygame.rect.Rect(x, y, 64, 64)

@@ -8,7 +8,7 @@ class Board:
     def __init__(self, width, height):
         self.width = width
         self.height = height
-        self.board = [[None] * width for _ in range(height)]
+        self.board = [[0 for _ in range(width)] for _ in range(height)]
         self.left = 0
         self.top = 0
         self.cell_size = 64
@@ -28,11 +28,12 @@ class Board:
             for j, el in enumerate(row):
                 if el:
                     el.rect.x = i * 64
-                    el.rect.y = j * 64  - OFFSET
+                    el.rect.y = j * 64 - OFFSET
 
-    def render(self, scr):
-        dx = int(SPEED / FPS)
-        self.left -= dx
+    def render(self, scr, changes=True):
+        if changes:
+            dx = int(SPEED / FPS)
+            self.left -= dx
         for i, row in enumerate(self.board):
             for j, el in enumerate(row):
                 pygame.draw.rect(scr, (255, 255, 255),
@@ -40,7 +41,8 @@ class Board:
                                   self.cell_size], width=1
                                  )
                 if el:
-                    el.rect.x -= dx
+                    if changes:
+                        el.rect.x -= dx
 
     def get_cell(self, pos):
         if self.left <= pos[0] <= len(self.board) * self.cell_size + self.left and self.top <= pos[1] <= len(

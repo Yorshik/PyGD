@@ -1,4 +1,3 @@
-import copy
 import csv
 import os
 import sys
@@ -7,20 +6,15 @@ import time
 import pygame
 from PIL import Image
 
-from objects.board import Board
-from objects.constants import OFFSET, FPS, WIDTH, HEIGHT, SPEED, init_status
-from objects.cube import Cube
-from objects.ground import Ground
-from objects.groups import (
-    PortalGroup, SpeedGroup, SpikeGroup, OrbGroup, EndGroup, CoinGroup, BlockGroup, JumppudGroup,
-    PlayerGroup, DHGroup
-)
 import objects.constants
+from objects.board import Board
+from objects.constants import OFFSET, HEIGHT
+
 objects.constants.init_status()
 
 
 def load_image(name, colorkey=None):
-    fullname = os.path.join('./resource/', name)
+    fullname = os.path.join('data/resource/', name)
     if not os.path.isfile(fullname):
         print(f"Файл с изображением '{fullname}' не найден")
         sys.exit()
@@ -42,19 +36,22 @@ def load_level(
     from objects.end import End
     with open('./' + filename) as csvfile:
         reader = list(csv.reader(csvfile, delimiter=';'))
+    music = reader.pop(0)
+    pygame.mixer.music.load('data/resource\\musics\\' + music[0])
+    pygame.mixer.music.play(-1)
     board = Board(0, 0)
-    matrix = [[[None] for _ in range(len(reader))] for _ in range(len(reader[0]))]
+    matrix = [[0 for _ in range(len(reader))] for _ in range(len(reader[0]))]
     board.board = matrix
     board.set_view()
     for i, row in enumerate(reader):
         for j, el in enumerate(row):
             match el:
-                case ' ':
+                case '  ':
                     board.board[j][i] = 0
-                case 'b':
+                case 'b ':
                     board.board[j][i] = Block(blockgroup, x=j * 64, y=i * 64 - OFFSET)
-                case 'e':
-                    board.board[j][i] = End(endgroup)
+                case 'e ':
+                    board.board[j][i] = End(endgroup, x=j * 64, y=i * 64 - OFFSET)
     return board
 
 
@@ -82,17 +79,23 @@ def draw(scr: pygame.Surface, dct):
         case 'MAIN':
             dct['main_menu'].draw(scr)
         case 'GAME':
-            # scr = pygame.transform.scale(scr, [WIDTH, HEIGHT])
             scr.blit(dct['level_bg'], (0, 0))
             scr.blit(dct['ground'], [0, HEIGHT - 100])
             dct['board'].render(scr)
-            dct['block_group'].draw(scr)
+            dct['blockgroup'].draw(scr)
             dct['player_group'].update()
             dct['player_group'].draw(scr)
-            return scr
         case 'DIED':
-            dct['board'] = copy.copy(dct['copy_of_board'])
-            dct['resetter']()
+            pygame.mixer.music.stop()
             time.sleep(1)
+            dct['resetter']()
+        case 'WIN':
+            scr.blit(dct['level_bg'], (0, 0))
+            scr.blit(dct['ground'], [0, HEIGHT - 100])
+            dct['board'].render(scr, changes=False)
+            dct['blockgroup'].draw(scr)
+            dct['player_group'].update()
+            dct['player_group'].draw(scr)
+            # TODO add drawing end menu
         case Err:
             raise Exception(Err + ' Something went wrong')

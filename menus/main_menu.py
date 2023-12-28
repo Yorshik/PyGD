@@ -6,26 +6,27 @@ import sys
 from objects.label import Label
 import objects.constants
 objects.constants.init_status()
+from objects.functions import load_level
 
 
 class MainMenu(pygame.surface.Surface):
     def __init__(self):
         super().__init__((1500, int(1500 / 16 * 9)))
 
-        background = pygame.image.load("resource/backgrounds/bg1.png")
+        background = pygame.image.load("data/resource/backgrounds/bg1.png")
         self.background = pygame.transform.scale(background, (1500, int(1500 / 16 * 9)))
         self.image = pygame.surface.Surface((1500, int(1500 / 16 * 9)))
         self.rect = self.image.get_rect()
 
         self.all_sprites = pygame.sprite.Group()
 
-        self.music_image = Button("resource\images\GJ_music_on.png", (20, 510), self.toggle_music, (80, 80))
-        self.settings_button = Button("resource\images\GJ_settings.png", (700, 10), self.settings, (80, 80))
+        self.music_image = Button("data/resource/images/GJ_music_on.png", (20, 510), self.toggle_music, (80, 80))
+        self.settings_button = Button("data/resource/images/GJ_settings.png", (700, 10), self.settings, (80, 80))
 
         self.buttons = [
-            Button("resource\images\GJ_play_btn.png", (220, 280), self.start_game, (150, 150)),
-            Button("resource\images\GJ_profile.png", (410, 280), self.profile, (150, 150)),
-            Button("resource\images\GJ_exit.png", (20, 10), sys.exit, (80, 80)),
+            Button("data/resource/images/GJ_play_btn.png", (220, 280), self.start_game, (150, 150)),
+            Button("data/resource/images/GJ_profile.png", (410, 280), self.profile, (150, 150)),
+            Button("data/resource/images/GJ_exit.png", (20, 10), sys.exit, (80, 80)),
             self.settings_button,
             self.music_image
         ]
@@ -38,15 +39,25 @@ class MainMenu(pygame.surface.Surface):
 
         self.all_sprites.add(self.name_label)
 
-        self.music = r"resource\musics\menu.mp3"
+        self.music = r"data/resource/musics/menu.mp3"
         pygame.mixer.init()
         pygame.mixer.music.load(self.music)
         pygame.mixer.music.set_volume(0.1)  # Устанавливаем начальную громкость
         pygame.mixer.music.play(-1)
 
-    def start_game(self):
+    def start_game(self, dct):
         time.sleep(0.3)
         objects.constants.STATUS = 'GAME'
+        dct['board'] = load_level('data\\levels\\test.csv',
+                                  dct['blockgroup'],
+                                  dct['spikegroup'],
+                                  dct['orbgroup'],
+                                  dct['endgroup'],
+                                  dct['jumppudgroup'],
+                                  dct['DHgroup'],
+                                  dct['portalgroup'],
+                                  dct['coingroup'],
+                                  dct['speedgroup'])
 
     def profile(self):
         pass
@@ -67,10 +78,10 @@ class MainMenu(pygame.surface.Surface):
     def settings(self):
         pass
 
-    def handle_event(self, event):
+    def handle_event(self, event, dct):
         for button in self.buttons:
             if button.is_clicked(event):
-                button.action()
+                button.action(dct)
 
     def draw(self, surface=None):
         if surface is None:
