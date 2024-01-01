@@ -7,7 +7,7 @@ HEIGHT = 1500/16*9
 SPEED = 450
 OFFSET = 25
 STATUS = None
-
+STARTPOSITION = HEIGHT - 150
 
 def init_status():
     global STATUS

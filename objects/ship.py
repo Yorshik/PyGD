@@ -1,10 +1,11 @@
 import math
 import pygame
 from objects.constants import LEFTBUTTON, FPS, SHIPAY, HEIGHT, SPEED
+from math import ceil
 
 
 class Ship(pygame.sprite.Sprite):
-    def __init__(self, *group, y):
+    def __init__(self, *group, y, parent):
         super().__init__(*group)
         from objects.functions import load_image
         self.image = load_image('player_icons/ship1.png').convert_alpha()
@@ -20,6 +21,7 @@ class Ship(pygame.sprite.Sprite):
         self.bottom_block_y = None
         self.top_block_y = None
         self.collide_block = False
+        self.parent = parent
 
     def update(self, *args, **kwargs):
         mouse = pygame.mouse.get_pressed()
@@ -32,9 +34,9 @@ class Ship(pygame.sprite.Sprite):
         elif self.bottom_block_y:
             y = self.bottom_block_y - self.rect.h
         else:
-            y = min([self.rect.y - self.vy / FPS, int(HEIGHT - 100 - self.rect.h)])
+            y = min([self.rect.y - self.vy / FPS, ceil(HEIGHT - 100 - self.rect.h)])
         self.rect.y = y
-        if self.rect.y != int(HEIGHT - 100 - self.rect.h):
+        if self.rect.y != ceil(HEIGHT - 100 - self.rect.h):
             self.vy = max([self.vy - 50 * self.gravity, -1000])
             self.on_ground = False
         else:
@@ -48,6 +50,6 @@ class Ship(pygame.sprite.Sprite):
             self.angle = 0
         if self.angle:
             self.image = pygame.transform.rotate(self.orig, min(self.angle, 45))
-
         else:
             self.image = self.orig
+        self.parent.update_image_and_rect(self.image, self.rect)

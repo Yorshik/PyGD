@@ -9,7 +9,6 @@ from PIL import Image
 import objects.constants
 from objects.board import Board
 from objects.constants import OFFSET, HEIGHT
-
 objects.constants.init_status()
 
 
@@ -34,6 +33,7 @@ def load_level(
         speedgroup, ):
     from objects.block import Block
     from objects.end import End
+    from objects.portals import Portal
     with open('./' + filename) as csvfile:
         reader = list(csv.reader(csvfile, delimiter=';'))
     music = reader.pop(0)
@@ -52,6 +52,10 @@ def load_level(
                     board.board[j][i] = Block(blockgroup, x=j * 64, y=i * 64 - OFFSET)
                 case 'e ':
                     board.board[j][i] = End(endgroup, x=j * 64, y=i * 64 - OFFSET)
+                case 'sp':
+                    board.board[j][i] = Portal(portalgroup, t='to_ship', x=j * 64, y=i * 64 - OFFSET - 32)
+                case 'cp':
+                    board.board[j][i] = Portal(portalgroup, t='to_cube', x=j * 64, y=i * 64 - OFFSET - 32)
     return board
 
 
@@ -83,6 +87,7 @@ def draw(scr: pygame.Surface, dct):
             scr.blit(dct['ground'], [0, HEIGHT - 100])
             dct['board'].render(scr)
             dct['blockgroup'].draw(scr)
+            dct['portalgroup'].draw(scr)
             dct['player_group'].update()
             dct['player_group'].draw(scr)
         case 'DIED':

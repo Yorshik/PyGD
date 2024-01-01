@@ -6,7 +6,8 @@ class PlayerGroup(pygame.sprite.Group):
         super().__init__()
 
     def update(self, *args, **kwargs):
-        self.sprites()[0].update()
+        for sprite in self.sprites():
+            sprite.update()
 
 
 class DHGroup(pygame.sprite.Group):
