@@ -40,8 +40,9 @@ def handle_collision(
     if pygame.sprite.spritecollide(p, endgroup, False):
         objects.constants.STATUS = 'WIN'
         print('win')
-    if pygame.sprite.spritecollide(p, jumppudgroup, False):
-        pass
+    if lst := pygame.sprite.spritecollide(p, jumppudgroup, False):
+        for el in lst:
+            el.action(DICT)
     if pygame.sprite.spritecollide(p, DHgroup, False):
         pass
     if lst := pygame.sprite.spritecollide(p, portalgroup, False):

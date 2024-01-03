@@ -34,6 +34,7 @@ def load_level(
     from objects.block import Block
     from objects.end import End
     from objects.portals import Portal
+    from objects.jumppuds import Jumppud
     with open('./' + filename) as csvfile:
         reader = list(csv.reader(csvfile, delimiter=';'))
     music = reader.pop(0)
@@ -56,6 +57,12 @@ def load_level(
                     board.board[j][i] = Portal(portalgroup, t='to_ship', x=j * 64, y=i * 64 - OFFSET - 32)
                 case 'cp':
                     board.board[j][i] = Portal(portalgroup, t='to_cube', x=j * 64, y=i * 64 - OFFSET - 32)
+                case 'pj':
+                    board.board[j][i] = Jumppud(jumppudgroup, var='purple', x=j*64, y=i*64-OFFSET+(64-12))
+                case 'rj':
+                    board.board[j][i] = Jumppud(jumppudgroup, var='red', x=j*64, y=i*64-OFFSET+(64-15))
+                case 'yj':
+                    board.board[j][i] = Jumppud(jumppudgroup, var='yellow', x=j*64, y=i*64-OFFSET+(64-10))
     return board
 
 
@@ -88,6 +95,7 @@ def draw(scr: pygame.Surface, dct):
             dct['board'].render(scr)
             dct['blockgroup'].draw(scr)
             dct['portalgroup'].draw(scr)
+            dct['jumppudgroup'].draw(scr)
             dct['player_group'].update()
             dct['player_group'].draw(scr)
         case 'DIED':

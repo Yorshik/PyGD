@@ -24,11 +24,21 @@ class Board:
         self.top = HEIGHT - 100 - self.cell_size * len(self.board[0])
 
     def reset(self):
+        from objects.jumppuds import Jumppud
         for i, row in enumerate(self.board):
             for j, el in enumerate(row):
                 if el:
                     el.rect.x = i * 64
-                    el.rect.y = j * 64 - OFFSET
+                    if el.__class__ != Jumppud:
+                        el.rect.y = j * 64 - OFFSET
+                    else:
+                        match el.variant:
+                            case 'yellow':
+                                el.rect.y = j*64-OFFSET + 64 - 10
+                            case 'purple':
+                                el.rect.y = j*64-OFFSET + 64 - 12
+                            case 'red':
+                                el.rect.y = j*64-OFFSET + 64 - 15
 
     def render(self, scr, changes=True):
         if changes:
