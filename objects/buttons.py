@@ -1,4 +1,5 @@
 import pygame
+
 from objects.constants import LEFTBUTTON
 
 
@@ -14,5 +15,7 @@ class Button(pygame.sprite.Sprite):
         return event.type == pygame.MOUSEBUTTONDOWN and event.button == LEFTBUTTON and self.rect.collidepoint(event.pos)
 
     def scale(self, factor):
-        self.image = pygame.transform.smoothscale(self.original_image, (int(self.rect.width * factor), int(self.rect.height * factor)))
+        self.image = pygame.transform.smoothscale(
+            self.original_image, (int(self.rect.width * factor), int(self.rect.height * factor))
+            )
         self.rect = self.image.get_rect(topleft=self.rect.topleft)

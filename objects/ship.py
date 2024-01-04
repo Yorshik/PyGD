@@ -1,7 +1,9 @@
 import math
-import pygame
-from objects.constants import LEFTBUTTON, FPS, SHIPAY, HEIGHT, SPEED
 from math import ceil
+
+import pygame
+
+from objects.constants import LEFTBUTTON, FPS, SHIPAY, HEIGHT, SPEED
 
 
 class Ship(pygame.sprite.Sprite):
@@ -32,18 +34,27 @@ class Ship(pygame.sprite.Sprite):
         if self.top_block_y:
             y = self.top_block_y - self.vy / FPS
         elif self.bottom_block_y:
-            y = self.bottom_block_y - self.rect.h
+            # y = self.bottom_block_y - self.rect.h
+            y = min(
+                [self.rect.y - self.vy / FPS,
+                 min([int(HEIGHT - 100 - self.rect.h), int(self.bottom_block_y - self.rect.h)])]
+            ) + 1
         else:
             y = min([self.rect.y - self.vy / FPS, ceil(HEIGHT - 100 - self.rect.h)])
         self.rect.y = y
-        if self.rect.y != ceil(HEIGHT - 100 - self.rect.h):
-            self.vy = max([self.vy - 50 * self.gravity, -1000])
-            self.on_ground = False
+        if self.gravity == -1:
+            if self.rect.y >= ceil(HEIGHT - 100 - self.rect.h):
+                self.rect.y = ceil(HEIGHT - 100 - self.rect.h)
+            self.vy = min(self.vy + 50, 1000)
         else:
-            self.vy = 0
-            self.on_ground = True
+            if self.rect.y != ceil(HEIGHT - 100 - self.rect.h):
+                self.vy = max([self.vy - 50, -1000])
+                self.on_ground = False
+            else:
+                self.vy = 0
+                self.on_ground = True
         if not (self.on_ground or self.collide_block) and self.vy != 0:
-            self.angle = math.degrees(math.atan(self.vy / SPEED))/1.7
+            self.angle = math.degrees(math.atan(self.vy / SPEED)) / 1.7
             if abs(self.angle) > 45:
                 self.angle = 45 * self.angle / abs(self.angle)
         else:

@@ -1,6 +1,6 @@
 import pygame
-from objects.constants import STARTPOSITION
 
+from objects.constants import STARTPOSITION
 
 pygame.init()
 

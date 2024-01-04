@@ -1,4 +1,5 @@
 import pygame
+
 from objects.functions import load_image
 
 
@@ -15,18 +16,16 @@ class Jumppud(pygame.sprite.Sprite):
         match variant:
             case 'yellow':
                 self.image = load_image('blocks/yellow_jumppud.png')
-                self.rect = self.image.get_rect()
-                self.dy = 870
+                self.dy = 870 * 1.5
             case 'purple':
                 self.image = load_image('blocks/purple_jumppud.png')
-                self.rect = self.image.get_rect()
-                self.dy = 870 * 0.5
+                self.dy = 870
             case 'red':
                 self.image = load_image('blocks/red_jumppud.png')
-                self.rect = self.image.get_rect()
                 self.dy = 870 * 2
+        self.rect = self.image.get_rect()
 
     def action(self, dct):
         if not self.activated:
             self.activated = True
-            dct['player'].mode.vy += self.dy * dct['player'].mode.gravity
+            dct['player'].mode.vy = self.dy * dct['player'].mode.gravity

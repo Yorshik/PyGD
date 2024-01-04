@@ -5,6 +5,6 @@ from objects.cube import *
 from objects.DH_blocks import *
 from objects.functions import *
 from objects.jumppuds import *
-from objects.orbs import *
+from objects.orb import *
 from objects.ship import *
 from objects.wave import *

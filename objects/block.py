@@ -1,4 +1,5 @@
 import pygame
+
 from objects.functions import load_image
 
 

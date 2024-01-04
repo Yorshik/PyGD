@@ -1,6 +1,8 @@
-import pygame
-from objects.constants import LEFTBUTTON, FPS, CUBEAY, HEIGHT
 from math import ceil
+
+import pygame
+
+from objects.constants import LEFTBUTTON, FPS, CUBEAY, HEIGHT
 
 
 # TODO comments
@@ -22,9 +24,6 @@ class Cube(pygame.sprite.Sprite):
         self.bottom_block_y = None
         self.parent = parent
 
-    def set_on_block(self, state):
-        self.collide_block = state
-
     def update(self, *args, **kwargs):
         mouse = pygame.mouse.get_pressed()
         keys = pygame.key.get_pressed()
@@ -32,10 +31,9 @@ class Cube(pygame.sprite.Sprite):
             if self.on_ground or self.collide_block:
                 self.vy = 870 * self.gravity
         if self.bottom_block_y:
-            y = min([self.rect.y - self.vy / FPS, max([int(HEIGHT - 100 - self.rect.h), int(self.bottom_block_y)])])
+            self.rect.y = min(int(self.rect.y - self.vy / FPS), self.bottom_block_y - self.rect.h + 1)
         else:
-            y = min([self.rect.y - self.vy / FPS, ceil(HEIGHT - 100 - self.rect.h)])
-        self.rect.y = y
+            self.rect.y = min([int(self.rect.y - self.vy / FPS), ceil(HEIGHT - 100 - self.rect.h)])
         if self.rect.y != ceil(HEIGHT - 100 - self.rect.h):
             self.vy = max([self.vy - self.ay * self.gravity, -1000 * self.gravity])
             self.on_ground = False

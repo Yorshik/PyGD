@@ -1,6 +1,7 @@
 import copy
 
 import pygame
+
 from objects.constants import HEIGHT, FPS, SPEED, OFFSET
 
 
@@ -34,11 +35,11 @@ class Board:
                     else:
                         match el.variant:
                             case 'yellow':
-                                el.rect.y = j*64-OFFSET + 64 - 10
+                                el.rect.y = j * 64 - OFFSET + 64 - 10
                             case 'purple':
-                                el.rect.y = j*64-OFFSET + 64 - 12
+                                el.rect.y = j * 64 - OFFSET + 64 - 12
                             case 'red':
-                                el.rect.y = j*64-OFFSET + 64 - 15
+                                el.rect.y = j * 64 - OFFSET + 64 - 15
 
     def render(self, scr, changes=True):
         if changes:
@@ -46,10 +47,11 @@ class Board:
             self.left -= dx
         for i, row in enumerate(self.board):
             for j, el in enumerate(row):
-                pygame.draw.rect(scr, (255, 255, 255),
-                                 [self.left + i * self.cell_size, self.top + j * self.cell_size, self.cell_size,
-                                  self.cell_size], width=1
-                                 )
+                pygame.draw.rect(
+                    scr, (255, 255, 255),
+                    [self.left + i * self.cell_size, self.top + j * self.cell_size, self.cell_size,
+                     self.cell_size], width=1
+                    )
                 if el:
                     if changes:
                         el.rect.x -= dx

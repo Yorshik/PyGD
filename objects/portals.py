@@ -1,8 +1,6 @@
 import pygame
-from objects.ship import Ship
-from objects.cube import Cube
+
 from objects.functions import load_image
-from objects.groups import PlayerGroup
 
 
 class Portal(pygame.sprite.Sprite):
