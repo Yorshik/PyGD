@@ -1,12 +1,14 @@
+import sys
 import time
 
 import pygame
-from objects.buttons import Button
-import sys
-from objects.label import Label
+
 import objects.constants
-objects.constants.init_status()
-from objects.functions import load_level
+from objects.buttons import Button
+from objects.functions import load_level, reset
+from objects.label import Label
+
+objects.constants.init_variables()
 
 
 class MainMenu(pygame.surface.Surface):
@@ -46,18 +48,20 @@ class MainMenu(pygame.surface.Surface):
         pygame.mixer.music.play(-1)
 
     def start_game(self, dct):
+        dct['board'] = load_level(
+            'data\\levels\\test.csv',
+            dct['blockgroup'],
+            dct['spikegroup'],
+            dct['orbgroup'],
+            dct['endgroup'],
+            dct['jumppudgroup'],
+            dct['DHgroup'],
+            dct['portalgroup'],
+            dct['coingroup'],
+            dct['speedgroup']
+        )
+        reset(dct)
         time.sleep(0.3)
-        objects.constants.STATUS = 'GAME'
-        dct['board'] = load_level('data\\levels\\test.csv',
-                                  dct['blockgroup'],
-                                  dct['spikegroup'],
-                                  dct['orbgroup'],
-                                  dct['endgroup'],
-                                  dct['jumppudgroup'],
-                                  dct['DHgroup'],
-                                  dct['portalgroup'],
-                                  dct['coingroup'],
-                                  dct['speedgroup'])
 
     def profile(self):
         pass

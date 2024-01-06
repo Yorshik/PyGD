@@ -1,15 +1,21 @@
 LEFTBUTTON = 1
 FPS = 60
-SHIPAY = 25
-CUBEAY = 50
+SHIPAY = 10 / 12
+CUBEAY = 5 / 6
 WIDTH = 1500
 HEIGHT = 1500 / 16 * 9
-SPEED = 450
+SPEED = 480
 OFFSET = 25
 STATUS = None
+GAMESPEED = None
 STARTPOSITION = HEIGHT - 150
+GAMESTARTED = None
 
 
-def init_status():
+def init_variables():
     global STATUS
+    global GAMESTARTED
+    global GAMESPEED
     STATUS = 'MAIN'
+    GAMESTARTED = False
+    GAMESPEED = 1

@@ -1,6 +1,7 @@
 import pygame
 
 from objects.functions import load_image
+from objects.wave import Wave
 
 
 class Orb(pygame.sprite.Sprite):
@@ -25,14 +26,15 @@ class Orb(pygame.sprite.Sprite):
                 return load_image('blocks/red_orb.png')
 
     def action(self, DICT):
-        if not self.activated:
-            match self.orb:
-                case 'yellow':
-                    DICT['player'].mode.vy = 870 * DICT['player'].mode.gravity
-                case 'purple':
-                    DICT['player'].mode.vy = 870 * 0.5 * DICT['player'].mode.gravity
-                case 'black':
-                    DICT['player'].mode.vy = -1000 * DICT['player'].mode.gravity
-                case 'red':
-                    DICT['player'].mode.vy = 870 * 1.5 * DICT['player'].mode.gravity
-            self.activated = True
+        if DICT['player'].mode.__class__ != Wave:
+            if not self.activated:
+                match self.orb:
+                    case 'yellow':
+                        DICT['player'].mode.vy = 15 * DICT['player'].mode.gravity
+                    case 'purple':
+                        DICT['player'].mode.vy = 15 * 0.5 * DICT['player'].mode.gravity
+                    case 'black':
+                        DICT['player'].mode.vy = -16 * DICT['player'].mode.gravity
+                    case 'red':
+                        DICT['player'].mode.vy = 15 * 1.5 * DICT['player'].mode.gravity
+                self.activated = True

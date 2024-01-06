@@ -2,7 +2,10 @@ import copy
 
 import pygame
 
-from objects.constants import HEIGHT, FPS, SPEED, OFFSET
+import objects.constants
+from objects.constants import HEIGHT, OFFSET
+
+objects.constants.init_variables()
 
 
 class Board:
@@ -43,7 +46,7 @@ class Board:
 
     def render(self, scr, changes=True):
         if changes:
-            dx = int(SPEED / FPS)
+            dx = 8 * objects.constants.GAMESPEED
             self.left -= dx
         for i, row in enumerate(self.board):
             for j, el in enumerate(row):
@@ -51,7 +54,7 @@ class Board:
                     scr, (255, 255, 255),
                     [self.left + i * self.cell_size, self.top + j * self.cell_size, self.cell_size,
                      self.cell_size], width=1
-                    )
+                )
                 if el:
                     if changes:
                         el.rect.x -= dx

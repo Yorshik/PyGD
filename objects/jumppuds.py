@@ -16,13 +16,13 @@ class Jumppud(pygame.sprite.Sprite):
         match variant:
             case 'yellow':
                 self.image = load_image('blocks/yellow_jumppud.png')
-                self.dy = 870 * 1.5
+                self.dy = 15 * 1.5
             case 'purple':
                 self.image = load_image('blocks/purple_jumppud.png')
-                self.dy = 870
+                self.dy = 15
             case 'red':
                 self.image = load_image('blocks/red_jumppud.png')
-                self.dy = 870 * 2
+                self.dy = 15 * 2
         self.rect = self.image.get_rect()
 
     def action(self, dct):

@@ -7,7 +7,7 @@ if __name__ == '__main__':
     from objects.ground import Ground
     from objects.groups import *
 
-    objects.constants.init_status()
+    objects.constants.init_variables()
     running = True
     screen = pygame.display.set_mode((1500, 1500 / 16 * 9), pygame.SCALED, vsync=1)
     from objects.player import Player
@@ -27,7 +27,7 @@ if __name__ == '__main__':
     speed_group = SpeedGroup()
     spike_group = SpikeGroup()
     portal_group = PortalGroup()
-    player = Player(player_group, mode='cube')
+    player = Player(player_group, mode='wave')
 
     DICT = {
         'main_menu': main_menu, 'player': player, 'player_group': player_group, 'spikegroup': spike_group,
@@ -36,14 +36,14 @@ if __name__ == '__main__':
         'DHgroup': DH_group, 'level_bg': bg, 'board': None, 'resetter': lambda: reset(DICT), 'status': 'MAIN'
     }
     while running:
-        handle_collision(
-            player, DICT=DICT
-        )
-        draw(screen, DICT)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
             main_menu.handle_event(event, DICT)
+        handle_collision(
+            player, DICT=DICT
+        )
+        draw(screen, DICT)
         pygame.display.flip()
         clock.tick(FPS)
     pygame.quit()

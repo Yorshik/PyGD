@@ -2,7 +2,7 @@ from math import ceil
 
 import pygame
 
-from objects.constants import LEFTBUTTON, FPS, CUBEAY, HEIGHT
+from objects.constants import LEFTBUTTON, CUBEAY, HEIGHT
 
 
 # TODO comments
@@ -29,11 +29,11 @@ class Cube(pygame.sprite.Sprite):
         keys = pygame.key.get_pressed()
         if mouse[LEFTBUTTON - 1] or keys[pygame.K_SPACE] or keys[pygame.K_UP]:
             if self.on_ground or self.collide_block:
-                self.vy = 870 * self.gravity
+                self.vy = 14.5 * self.gravity
         if self.bottom_block_y:
-            self.rect.y = min(int(self.rect.y - self.vy / FPS), self.bottom_block_y - self.rect.h + 1)
+            self.rect.y = min(int(self.rect.y - self.vy), self.bottom_block_y - self.rect.h + 1)
         else:
-            self.rect.y = min([int(self.rect.y - self.vy / FPS), ceil(HEIGHT - 100 - self.rect.h)])
+            self.rect.y = min([int(self.rect.y - self.vy), ceil(HEIGHT - 100 - self.rect.h)])
         if self.rect.y != ceil(HEIGHT - 100 - self.rect.h):
             self.vy = max([self.vy - self.ay * self.gravity, -1000 * self.gravity])
             self.on_ground = False
@@ -45,7 +45,7 @@ class Cube(pygame.sprite.Sprite):
             self.image = pygame.transform.rotate(self.orig, -self.angle)
         else:
             if self.angle:
-                if self.angle < 45 or self.angle > 315:
+                if self.angle < 45 or self.angle >= 315:
                     self.image = self.orig
                     self.angle = 0
                 elif 45 <= self.angle <= 135:

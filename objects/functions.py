@@ -10,7 +10,7 @@ import objects.constants
 from objects.board import Board
 from objects.constants import OFFSET, HEIGHT, LEFTBUTTON
 
-objects.constants.init_status()
+objects.constants.init_variables()
 
 
 def load_image(name, colorkey=None):
@@ -80,6 +80,7 @@ def load_level(
 def handle_collision(p, DICT):
     from objects.cube import Cube
     from objects.ship import Ship
+    from objects.wave import Wave
     if lst := pygame.sprite.spritecollide(p, DICT['blockgroup'], False):
         if p.mode.__class__ == Cube:
             for el in lst:
@@ -91,7 +92,9 @@ def handle_collision(p, DICT):
                     p.mode.bottom_block_y = el.rect.y
         elif p.mode.__class__ == Ship:
             for el in lst:
-                if p.mode.rect.y < el.rect.y and p.mode.rect.y + p.mode.rect.h + p.mode.vy - 15 < el.rect.y:
+                if p.mode.on_ground:
+                    objects.constants.STATUS = 'DIED'
+                elif p.mode.rect.y < el.rect.y and p.mode.rect.y + p.mode.rect.h + p.mode.vy - 10 < el.rect.y:
                     p.mode.bottom_block_y = el.rect.y
                     p.mode.vy = 0
                     p.mode.collide_block = True
@@ -100,8 +103,11 @@ def handle_collision(p, DICT):
                     p.mode.top_block_y = el.rect.y + el.rect.h
                     p.mode.vy = 0
                     p.mode.collide_block = True
+
                 else:
                     objects.constants.STATUS = 'DIED'
+        elif p.mode.__class__ == Wave:
+            objects.constants.STATUS = 'DIED'
     else:
         p.mode.bottom_block_y = None
         p.mode.top_block_y = None
@@ -134,6 +140,7 @@ def handle_collision(p, DICT):
 
 def reset(dct):
     dct['player'].mode.rect.y = objects.constants.STARTPOSITION
+    dct['player'].mode.vy = 0
     dct['board'].left = 0
     dct['board'].reset()
     for sprite in dct['portalgroup'].sprites() + dct['orbgroup'].sprites() + dct['jumppudgroup'].sprites():
