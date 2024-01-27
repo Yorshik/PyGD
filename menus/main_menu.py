@@ -1,11 +1,10 @@
 import sys
-import time
 
 import pygame
 
 import objects.constants
 from objects.buttons import Button
-from objects.functions import load_level, reset
+from objects.functions import load_level
 from objects.label import Label
 
 objects.constants.init_variables()
@@ -49,19 +48,16 @@ class MainMenu(pygame.surface.Surface):
 
     def start_game(self, dct):
         dct['board'] = load_level(
-            'data\\levels\\test.csv',
+            'data/levels/test.csv',
             dct['blockgroup'],
             dct['spikegroup'],
             dct['orbgroup'],
             dct['endgroup'],
             dct['jumppudgroup'],
-            dct['DHgroup'],
             dct['portalgroup'],
-            dct['coingroup'],
-            dct['speedgroup']
+            dct['inclinedplanegroup']
         )
-        reset(dct)
-        time.sleep(0.3)
+        objects.constants.STATUS = 'GAME'
 
     def profile(self):
         pass
@@ -90,8 +86,8 @@ class MainMenu(pygame.surface.Surface):
     def draw(self, surface=None):
         if surface is None:
             surface = pygame.display.get_surface()
+        # self.blit(self.background, (0, 0))
+        surface.blit(self.background, (0, 0))
         self.fill((255, 255, 255))
         self.image.fill((255, 255, 255))
-        self.all_sprites.draw(self.image)
-        surface.blit(self.background, (0, 0))
-        surface.blit(self.image, (0, 0))
+        self.all_sprites.draw(surface)

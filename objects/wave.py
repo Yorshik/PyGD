@@ -9,6 +9,7 @@ from objects.functions import load_image
 class Wave(pygame.sprite.Sprite):
     def __init__(self, *group, y, parent):
         super().__init__(*group)
+        self.name = 'Wave'
         self.parent = parent
         self.image = load_image('player_icons/wave1.png')
         self.orig = self.image
@@ -22,15 +23,15 @@ class Wave(pygame.sprite.Sprite):
         self.collide_block = False
         self.on_ground = False
 
-    def update(self):
+    def update(self, *args, **kwargs):
         keys = pygame.key.get_pressed()
         mouse = pygame.mouse.get_pressed()
         if mouse[LEFTBUTTON - 1] or keys[pygame.K_SPACE] or keys[pygame.K_UP]:
             if not self.top_block_y:
                 self.vy = 5
-        self.rect.y -= self.vy
+        self.rect.y -= self.vy * self.gravity
         if self.bottom_block_y:
-            self.rect.y = min(int(self.rect.y - self.vy), self.bottom_block_y - self.rect.h + 1)
+            self.rect.y = min(int(self.rect.y - self.vy * self.gravity), self.bottom_block_y - self.rect.h + 1)
         elif self.top_block_y:
             self.rect.y = self.top_block_y - self.vy
         else:
@@ -44,8 +45,10 @@ class Wave(pygame.sprite.Sprite):
         if self.rect.y == ceil(HEIGHT - 100 - self.rect.h):
             self.vy = 0
             self.on_ground = True
+        elif self.rect.y <= 100:
+            self.rect.y = 101
+            self.vy = 0
         else:
             self.vy = -5
             self.on_ground = False
-        print(self.vy)
         self.parent.update_image_and_rect(self.image, self.rect)

@@ -12,7 +12,7 @@ class Button(pygame.sprite.Sprite):
         self.action = action
 
     def is_clicked(self, event):
-        return event.type == pygame.MOUSEBUTTONDOWN and event.button == LEFTBUTTON and self.rect.collidepoint(event.pos)
+        return event.type == pygame.MOUSEBUTTONUP and event.button == LEFTBUTTON and self.rect.collidepoint(event.pos)
 
     def scale(self, factor):
         self.image = pygame.transform.smoothscale(

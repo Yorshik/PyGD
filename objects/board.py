@@ -3,7 +3,7 @@ import copy
 import pygame
 
 import objects.constants
-from objects.constants import HEIGHT, OFFSET
+from objects.constants import HEIGHT
 
 objects.constants.init_variables()
 
@@ -12,11 +12,12 @@ class Board:
     def __init__(self, width, height):
         self.width = width
         self.height = height
-        self.board = [[0 for _ in range(width)] for _ in range(height)]
+        self.board = None
         self.left = 0
         self.top = 0
         self.cell_size = 64
         self.clicked_cell = None
+        self.start = None
 
     def __copy__(self):
         board = Board(0, 0)
@@ -28,21 +29,11 @@ class Board:
         self.top = HEIGHT - 100 - self.cell_size * len(self.board[0])
 
     def reset(self):
-        from objects.jumppuds import Jumppud
         for i, row in enumerate(self.board):
             for j, el in enumerate(row):
                 if el:
                     el.rect.x = i * 64
-                    if el.__class__ != Jumppud:
-                        el.rect.y = j * 64 - OFFSET
-                    else:
-                        match el.variant:
-                            case 'yellow':
-                                el.rect.y = j * 64 - OFFSET + 64 - 10
-                            case 'purple':
-                                el.rect.y = j * 64 - OFFSET + 64 - 12
-                            case 'red':
-                                el.rect.y = j * 64 - OFFSET + 64 - 15
+                    el.rect.y = (j + 1) * 64 - el.rect.h + self.top - 1
 
     def render(self, scr, changes=True):
         if changes:
