@@ -11,6 +11,7 @@ class Portal(pygame.sprite.Sprite):
         self.image = self.load_image()
         self.rect = self.image.get_rect()
         self.rect.x = x
+        self.name = 'portal'
         self.rect.y = y
 
     def load_image(self):

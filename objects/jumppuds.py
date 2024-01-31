@@ -12,6 +12,7 @@ class Jumppud(pygame.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
         self.variant = var
+        self.name = 'jumppud'
 
     def load_image(self, variant):
         match variant:
@@ -37,4 +38,3 @@ class Jumppud(pygame.sprite.Sprite):
                 case 'blue':
                     dct['player'].mode.gravity = -dct['player'].mode.gravity
                     dct['player'].mode.vy = 0
-

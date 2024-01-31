@@ -1,4 +1,5 @@
 import pygame
+
 from objects.functions import load_image
 
 
@@ -10,3 +11,4 @@ class Spike(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
+        self.name = 'spike'

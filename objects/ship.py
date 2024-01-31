@@ -83,8 +83,10 @@ class Ship(pygame.sprite.Sprite):
             if self.gravity == 1:
                 self.image = pygame.transform.rotate(self.orig, min(self.angle, 45))
             elif self.gravity == -1:
-                self.image = pygame.transform.flip(pygame.transform.rotate(self.orig, max(-self.angle, -45)),
-                                                   False, True)
+                self.image = pygame.transform.flip(
+                    pygame.transform.rotate(self.orig, max(-self.angle, -45)),
+                    False, True
+                    )
         else:
             self.image = self.orig if self.gravity == 1 else pygame.transform.flip(self.orig, False, True)
         self.parent.update_image_and_rect(self.image, self.rect)

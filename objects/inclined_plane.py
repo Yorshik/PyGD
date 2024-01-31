@@ -11,3 +11,4 @@ class InclinedPlane(pygame.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
         self.mask = pygame.mask.from_surface(self.image)
+        self.name = 'inclined_plane'

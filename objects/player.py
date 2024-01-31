@@ -11,6 +11,7 @@ class Player(pygame.sprite.Sprite):
         from objects.cube import Cube
         from objects.ship import Ship
         from objects.wave import Wave
+        self.name = 'Player'
         self.wave = Wave(y=STARTPOSITION, parent=self)
         self.ship = Ship(y=STARTPOSITION, parent=self)
         self.cube = Cube(y=STARTPOSITION, parent=self)

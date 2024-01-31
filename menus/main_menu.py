@@ -33,7 +33,7 @@ class MainMenu(pygame.surface.Surface):
         ]
 
         self.button_clicked = False
-        self.name_label = Label("PyDG ", (300, 150), font_size=100)
+        self.name_label = Label("PyGD", (300, 150), font_size=100)
 
         for button in self.buttons:
             self.all_sprites.add(button)
@@ -48,7 +48,7 @@ class MainMenu(pygame.surface.Surface):
 
     def start_game(self, dct):
         dct['board'] = load_level(
-            'data/levels/test.csv',
+            'data/levels/level.csv',
             dct['blockgroup'],
             dct['spikegroup'],
             dct['orbgroup'],

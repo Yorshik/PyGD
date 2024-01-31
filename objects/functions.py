@@ -1,7 +1,6 @@
 import csv
 import os
 import sys
-import time
 
 import pygame
 from PIL import Image
@@ -14,7 +13,6 @@ objects.constants.init_variables()
 
 
 def load_image(name, colorkey=None):
-    print(os.getcwd())
     image = pygame.image.load(os.getcwd() + '\\data\\resource\\' + name)
     if colorkey is not None:
         image = image.convert()
@@ -57,11 +55,17 @@ def load_level(
                 case 'e ':
                     board.board[j][i] = End(endgroup, x=j * 64 + 320, y=i * 64 + int(board.top) - 1)
                 case 'vp':
-                    board.board[j][i] = Portal(portalgroup, t='to_ship', x=j * 64 + 320, y=i * 64 - 32 + int(board.top) - 1)
+                    board.board[j][i] = Portal(
+                        portalgroup, t='to_ship', x=j * 64 + 320, y=i * 64 - 32 + int(board.top) - 1
+                        )
                 case 'cp':
-                    board.board[j][i] = Portal(portalgroup, t='to_cube', x=j * 64 + 320, y=i * 64 - 32 + int(board.top) - 1)
+                    board.board[j][i] = Portal(
+                        portalgroup, t='to_cube', x=j * 64 + 320, y=i * 64 - 32 + int(board.top) - 1
+                        )
                 case 'wp':
-                    board.board[j][i] = Portal(portalgroup, t='to_wave', x=j * 64 + 320, y=i * 64 - 32 + int(board.top) - 1)
+                    board.board[j][i] = Portal(
+                        portalgroup, t='to_wave', x=j * 64 + 320, y=i * 64 - 32 + int(board.top) - 1
+                        )
                 # case 'bp':
                 #     board.board[j][i] = Portal(portalgroup, t='to_ball', x=j * 64, y=i * 64 - 32 + int(board.top) - 1)
                 # case 'sp':
@@ -69,24 +73,30 @@ def load_level(
                 # case 'up':
                 #     board.board[j][i] = Portal(portalgroup, t='to_ufo', x=j * 64, y=i * 64 - 32 + int(board.top) - 1)
                 case 'op':
-                    board.board[j][i] = Portal(portalgroup, t='to_opposite_gravity', x=j * 64 + 320, y=i * 64 - 32 + int(board.top) - 1)
+                    board.board[j][i] = Portal(
+                        portalgroup, t='to_opposite_gravity', x=j * 64 + 320, y=i * 64 - 32 + int(board.top) - 1
+                        )
                 case 'np':
-                    board.board[j][i] = Portal(portalgroup, t='to_normal_gravity', x=j * 64 + 320, y=i * 64 - 32 + int(board.top) - 1)
+                    board.board[j][i] = Portal(
+                        portalgroup, t='to_normal_gravity', x=j * 64 + 320, y=i * 64 - 32 + int(board.top) - 1
+                        )
                 case 'pj':
                     board.board[j][i] = Jumppud(
                         jumppudgroup, var='purple', x=j * 64 + 320, y=i * 64 + (64 - 12) + int(board.top) - 1
-                        )
+                    )
                 case 'rj':
                     board.board[j][i] = Jumppud(
                         jumppudgroup, var='red', x=j * 64 + 320, y=i * 64 + (64 - 15) + int(board.top) - 1
-                        )
+                    )
                 case 'yj':
                     board.board[j][i] = Jumppud(
                         jumppudgroup, var='yellow', x=j * 64 + 320, y=i * 64 + (64 - 10) + int(board.top) - 1
-                        )
+                    )
                 case 'bj':
-                    board.board[j][i] = Jumppud(jumppudgroup, var='blue', x=j * 64,
-                                                y=i * 64 + 320 + (64 - 14) + int(board.top) - 1)
+                    board.board[j][i] = Jumppud(
+                        jumppudgroup, var='blue', x=j * 64,
+                        y=i * 64 + 320 + (64 - 14) + int(board.top) - 1
+                        )
                 case 'yo':
                     board.board[j][i] = Orb(orbgroup, x=j * 64 + 320, y=i * 64 + int(board.top) - 1, t='yellow')
                 case 'ro':
@@ -108,13 +118,21 @@ def load_level(
                 case 'sd':
                     board.board[j][i] = Spike(spikegroup, x=j * 64 + 320, y=i * 64 + int(board.top) - 1, a=270)
                 case 'ia':
-                    board.board[j][i] = InclinedPlane(inclinedplanegroup, x=j*64 + 320, y=i*64 + int(board.top) - 1, a=0)
+                    board.board[j][i] = InclinedPlane(
+                        inclinedplanegroup, x=j * 64 + 320, y=i * 64 + int(board.top) - 1, a=0
+                        )
                 case 'ib':
-                    board.board[j][i] = InclinedPlane(inclinedplanegroup, x=j * 64 + 320, y=i * 64 + int(board.top) - 1, a=90)
+                    board.board[j][i] = InclinedPlane(
+                        inclinedplanegroup, x=j * 64 + 320, y=i * 64 + int(board.top) - 1, a=90
+                        )
                 case 'ic':
-                    board.board[j][i] = InclinedPlane(inclinedplanegroup, x=j*64 + 320, y=i*64 + int(board.top) - 1, a=180)
+                    board.board[j][i] = InclinedPlane(
+                        inclinedplanegroup, x=j * 64 + 320, y=i * 64 + int(board.top) - 1, a=180
+                        )
                 case 'id':
-                    board.board[j][i] = InclinedPlane(inclinedplanegroup, x=j*64 + 320, y=i*64 + int(board.top) - 1, a=270)
+                    board.board[j][i] = InclinedPlane(
+                        inclinedplanegroup, x=j * 64 + 320, y=i * 64 + int(board.top) - 1, a=270
+                        )
     return board
 
 
@@ -204,7 +222,7 @@ def handle_collision(p, dct):
         #             break
     if pygame.sprite.spritecollide(p, dct['endgroup'], False):
         objects.constants.STATUS = 'WIN'
-        print('win')
+        dct['end_menu'].update_attempt_label(dct['attempts'])
     if lst := pygame.sprite.spritecollide(p, dct['jumppudgroup'], False):
         for el in lst:
             el.action(dct)
@@ -219,11 +237,17 @@ def handle_collision(p, dct):
             el.action(dct)
     if pygame.sprite.spritecollide(p, dct['coingroup'], False):
         pass
-    if pygame.sprite.spritecollide(p, dct['speedgroup'], False):
-        pass
 
 
 def reset(dct):
+    dct['attempts'] += 1
+    dct['attempt_label'].rect.x = 400
+    dct['attempt_label'].text = dct['attempt_label'].text[:-1] + str(dct['attempts'])
+    dct['attempt_label'].image = dct['attempt_label'].font.render(
+        dct['attempt_label'].text, True, dct['attempt_label'].font_color
+        )
+    dct['attempt_label'].rect = dct['attempt_label'].image.get_rect(topleft=(400, 300))
+    dct['counter'] = 50
     dct['player'].mode.rect.y = objects.constants.STARTPOSITION
     dct['player'].mode.vy = 0
     dct['player'].mode.gravity = 1
@@ -275,14 +299,23 @@ def draw(scr: pygame.Surface, dct):
             dct['jumppudgroup'].draw(scr)
             dct['orbgroup'].draw(scr)
             dct['player_group'].update(dct)
+            scr.blit(dct['attempt_label'].image, (dct['attempt_label'].rect.x, dct['attempt_label'].rect.y))
+            dct['attempt_label'].rect.x -= 8
             dct['player_group'].draw(scr)
         case 'DIED':
             pygame.mixer.music.stop()
-            time.sleep(0.5)
-            dct['resetter']()
+            if dct['counter']:
+                dct['counter'] -= 1
+                percent = get_percent(dct)
+                if percent > dct['percent']:
+                    dct['percent'] = percent
+                    dct['new_best'].update(percent)
+                    scr.blit(dct['new_best'], (180, 300))
+            else:
+                dct['resetter']()
         case 'WIN':
             scr.blit(dct['level_bg'], (0, 0))
-            dct['board'].render(scr, changes=False)
+            dct['board'].render(scr, changes=False, draw=True)
             dct['groundgroup'].sprites()[0].rect.y = dct['board'].top + len(dct['board'].board[0]) * 64
             dct['groundgroup'].draw(scr)
             match dct['player'].mode.name:
@@ -292,5 +325,21 @@ def draw(scr: pygame.Surface, dct):
             dct['player_group'].update()
             dct['player_group'].draw(scr)
             dct['end_menu'].draw(scr)
+        case 'PAUSE':
+            scr.blit(dct['level_bg'], (0, 0))
+            dct['groundgroup'].draw(scr)
+            dct['board'].render(scr, changes=False, draw=True)
+            match dct['player'].mode.name:
+                case 'Ship' | 'Wave':
+                    scr.blit(dct['ceil'], pygame.rect.Rect(0, 0, WIDTH, objects.constants.SHIP_WAVE_CEIL))
+            dct['blockgroup'].draw(scr)
+            dct['player_group'].draw(scr)
+            scr.blit(dct['blackout'], (0, 0))
+            dct['pause_menu'].draw(scr, dct)
         case Err:
             raise Exception(Err + ' Something went wrong')
+
+
+def get_percent(dct):
+    cell = dct['board'].get_cell((dct['player'].rect.x, dct['player'].rect.y))
+    return int(cell[1] / len(dct['board'].board) * 100)

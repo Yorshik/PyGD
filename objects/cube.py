@@ -1,6 +1,6 @@
 import pygame
 
-from objects.constants import LEFTBUTTON, CUBEAY,  MAXSPEED
+from objects.constants import LEFTBUTTON, CUBEAY, MAXSPEED
 
 
 class Cube(pygame.sprite.Sprite):
@@ -40,7 +40,7 @@ class Cube(pygame.sprite.Sprite):
                 if self.collide_block:
                     self.vy = -14.5
             if self.bottom_block_y:
-                self.rect.y = max([int(self.rect.y - self.vy), self.bottom_block_y-1])
+                self.rect.y = max([int(self.rect.y - self.vy), self.bottom_block_y - 1])
             else:
                 self.rect.y -= self.vy
             self.vy = min([self.vy + self.ay, MAXSPEED])

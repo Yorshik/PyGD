@@ -17,5 +17,5 @@ class Button(pygame.sprite.Sprite):
     def scale(self, factor):
         self.image = pygame.transform.smoothscale(
             self.original_image, (int(self.rect.width * factor), int(self.rect.height * factor))
-            )
+        )
         self.rect = self.image.get_rect(topleft=self.rect.topleft)

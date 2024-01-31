@@ -10,5 +10,5 @@ class Block(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
-        self.hitbox = pygame.rect.Rect(self.rect.x, self.rect.y, self.rect.w, self.rect.h)
         self.die_from_collision = (True, True, False)
+        self.name = 'block'

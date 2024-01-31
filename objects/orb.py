@@ -14,6 +14,7 @@ class Orb(pygame.sprite.Sprite):
         self.rect.y = y
         self.orb = t
         self.activated = False
+        self.name = 'orb'
         self.time_of_activation = None
 
     def load_image(self, orb):
