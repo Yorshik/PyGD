@@ -43,10 +43,10 @@ if __name__ == '__main__':
         'jumppudgroup': jumppud_group, 'orbgroup': orb_group, 'coingroup': coin_group, 'portalgroup': portal_group,
         'endgroup': end_group, 'inclinedplanegroup': inclinedplanegroup, 'level_bg': bg, 'board': None,
         'resetter': lambda: reset(DICT), 'event': None, 'end_menu': end_menu, 'pause_menu': pause_menu,
-        'new_best': new_best,
+        'new_best': new_best, 'coins_coordinates': [],
         'counter': 50, 'percent': 0, 'attempts': 1,
         'attempt_label': Label('Attempt 1', (400, 300), font_size=150, font_color=(255, 255, 255)),
-        'blackout': pygame.image.load('data/resource/backgrounds/blackout.png')
+        'blackout': pygame.image.load('data/resource/backgrounds/blackout.png'), 'collected_coins': 0, 'max_coins': 0
     }
 
     while running:

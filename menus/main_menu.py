@@ -55,7 +55,9 @@ class MainMenu(pygame.surface.Surface):
             dct['endgroup'],
             dct['jumppudgroup'],
             dct['portalgroup'],
-            dct['inclinedplanegroup']
+            dct['inclinedplanegroup'],
+            dct['coingroup'],
+            dct
         )
         objects.constants.STATUS = 'GAME'
 

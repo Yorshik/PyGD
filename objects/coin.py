@@ -11,9 +11,11 @@ class Coin(pygame.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
         self.vy = 15
+        self.status = 'static'
 
     def update(self, *args, **kwargs):
-        self.rect.y += self.vy
-        self.vy -= 0.8
-        if self.rect.y > 840:
-            self.kill()
+        if self.status != 'static':
+            self.rect.y -= self.vy
+            self.vy -= 0.8
+            if self.rect.y > 1000:
+                self.kill()

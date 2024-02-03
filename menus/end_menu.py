@@ -10,6 +10,13 @@ objects.constants.init_variables()
 class EndMenu(pygame.surface.Surface):
     def __init__(self):
         super().__init__((800, 600))
+        self.coins = []
+        self.coin = pygame.sprite.Sprite()
+        self.coin.image = pygame.image.load('data/resource/blocks/coin.png')
+        self.coin.rect = self.coin.image.get_rect()
+        self.not_collected_coin = pygame.sprite.Sprite()
+        self.not_collected_coin.image = pygame.image.load('data/resource/blocks/not_collected_coin.png')
+        self.not_collected_coin.rect = self.not_collected_coin.image.get_rect()
         self.music = r"data/resource/musics/menu.mp3"
         self.background = pygame.transform.scale(pygame.image.load("data/resource/backgrounds/end.jpg"), (800, 600))
         self.image = pygame.surface.Surface((800, 600))
@@ -28,12 +35,27 @@ class EndMenu(pygame.surface.Surface):
         for button in self.labels:
             self.all_sprites.add(button)
 
-    def update_attempt_label(self, attempts):
+    def update(self, attempts, coins):
         self.attempts_label.text = f'attempts: {attempts}'
         self.attempts_label.image = self.attempts_label.font.render(
             self.attempts_label.text, True, self.attempts_label.font_color
             )
         self.attempts_label.rect = self.image.get_rect(topleft=(400, 360))
+        for i in range(coins):
+            self.all_sprites.remove(self.coins[i])
+            x, y = self.coins[i].rect.x, self.coins[i].rect.y
+            self.coins[i] = self.coin
+            self.coins[i].rect.x = x
+            self.coins[i].rect.y = y
+            self.all_sprites.add(self.coins[i])
+
+    def set_coins(self, amount):
+        for i in range(amount):
+            self.coins.append(self.not_collected_coin)
+            self.coins[-1].rect.x = 700 + 100 * i
+            self.coins[-1].rect.y = 500
+            self.all_sprites.add(self.coins[-1])
+        print(self.coins)
 
     def exit(self, _):
         objects.constants.STATUS = 'MAIN'

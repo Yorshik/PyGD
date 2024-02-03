@@ -13,7 +13,7 @@ objects.constants.init_variables()
 
 
 def load_image(name, colorkey=None):
-    image = pygame.image.load(os.getcwd() + '\\data\\resource\\' + name)
+    image = pygame.image.load('data/resource/' + name)
     if colorkey is not None:
         image = image.convert()
         if colorkey == -1:
@@ -25,7 +25,7 @@ def load_image(name, colorkey=None):
 
 
 def load_level(
-        filename, blockgroup, spikegroup, orbgroup, endgroup, jumppudgroup, portalgroup, inclinedplanegroup
+        filename, blockgroup, spikegroup, orbgroup, endgroup, jumppudgroup, portalgroup, inclinedplanegroup, coingroup, dct
 ):
     from objects.block import Block
     from objects.end import End
@@ -34,6 +34,7 @@ def load_level(
     from objects.orb import Orb
     from objects.spike import Spike
     from objects.inclined_plane import InclinedPlane
+    from objects.coin import Coin
     with open(os.getcwd() + '/' + filename) as csvfile:
         reader = list(csv.reader(csvfile, delimiter=';'))
     music = reader.pop(0)
@@ -133,6 +134,12 @@ def load_level(
                     board.board[j][i] = InclinedPlane(
                         inclinedplanegroup, x=j * 64 + 320, y=i * 64 + int(board.top) - 1, a=270
                         )
+                case 'c ':
+                    board.board[j][i] = Coin(coingroup, x=j * 64 + 320, y=i * 64 + int(board.top) - 1)
+                    dct['coins_coordinates'].append([j, i, j * 64 + 320, i * 64 + int(board.top) - 1])
+                    dct['max_coins'] += 1
+    print(dct['max_coins'])
+    dct['end_menu'].set_coins(dct['max_coins'])
     return board
 
 
@@ -222,7 +229,7 @@ def handle_collision(p, dct):
         #             break
     if pygame.sprite.spritecollide(p, dct['endgroup'], False):
         objects.constants.STATUS = 'WIN'
-        dct['end_menu'].update_attempt_label(dct['attempts'])
+        dct['end_menu'].update(dct['attempts'], dct['collected_coins'])
     if lst := pygame.sprite.spritecollide(p, dct['jumppudgroup'], False):
         for el in lst:
             el.action(dct)
@@ -235,12 +242,17 @@ def handle_collision(p, dct):
     if lst := pygame.sprite.spritecollide(p, dct['portalgroup'], False):
         for el in lst:
             el.action(dct)
-    if pygame.sprite.spritecollide(p, dct['coingroup'], False):
-        pass
+    if lst := pygame.sprite.spritecollide(p, dct['coingroup'], False):
+        for coin in lst:
+            if coin.status != 'active':
+                coin.status = 'active'
+                dct['collected_coins'] += 1
 
 
 def reset(dct):
+    from objects.coin import Coin
     dct['attempts'] += 1
+    dct['collected_coins'] = 0
     dct['attempt_label'].rect.x = 400
     dct['attempt_label'].text = dct['attempt_label'].text[:-1] + str(dct['attempts'])
     dct['attempt_label'].image = dct['attempt_label'].font.render(
@@ -255,6 +267,8 @@ def reset(dct):
     dct['board'].reset()
     dct['player'].mode = dct['player'].change_mode(dct['board'].start)
     dct['player'].mode.image = dct['player'].cube.orig
+    for j, i, x, y in dct['coins_coordinates']:
+        dct['board'].board[j][i] = Coin(dct['coingroup'], x=x - 320, y=y)
     for sprite in dct['portalgroup'].sprites() + dct['jumppudgroup'].sprites():
         sprite.activated = False
     pygame.mixer.music.play(-1)
@@ -301,6 +315,8 @@ def draw(scr: pygame.Surface, dct):
             dct['player_group'].update(dct)
             scr.blit(dct['attempt_label'].image, (dct['attempt_label'].rect.x, dct['attempt_label'].rect.y))
             dct['attempt_label'].rect.x -= 8
+            dct['coingroup'].update()
+            dct['coingroup'].draw(scr)
             dct['player_group'].draw(scr)
         case 'DIED':
             pygame.mixer.music.stop()
