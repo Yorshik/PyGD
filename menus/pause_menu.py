@@ -9,7 +9,7 @@ objects.constants.init_variables()
 
 class PauseMenu(pygame.surface.Surface):
     def __init__(self):
-        super().__init__((1500, 1500 / 16 * 9))
+        super().__init__((objects.constants.WIDTH, int(objects.constants.HEIGHT)))
         self.music = r"data/resource/musics/menu.mp3"
         self.resume_button = Button('data/resource/images/play.png', (200, 600), self.resume, size=[100, 100])
         self.reload_button = Button('data/resource/images/reload.png', (750, 600), self.reload, size=[100, 100])
@@ -55,7 +55,7 @@ class PauseMenu(pygame.surface.Surface):
             self.percent_label.text = str(dct['percent']) + '%'
             self.percent_label.image = self.percent_label.font.render(
                 self.percent_label.text, True, self.percent_label.font_color
-                )
+            )
             self.percent_label.rect = self.percent_label.image.get_rect(topleft=(200, 300))
         self.fill((255, 0, 255))
         self.all_sprites.draw(surface)

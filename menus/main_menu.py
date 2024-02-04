@@ -12,11 +12,11 @@ objects.constants.init_variables()
 
 class MainMenu(pygame.surface.Surface):
     def __init__(self):
-        super().__init__((1500, int(1500 / 16 * 9)))
+        super().__init__((objects.constants.WIDTH, int(objects.constants.HEIGHT)))
 
         background = pygame.image.load("data/resource/backgrounds/bg1.png")
-        self.background = pygame.transform.scale(background, (1500, int(1500 / 16 * 9)))
-        self.image = pygame.surface.Surface((1500, int(1500 / 16 * 9)))
+        self.background = pygame.transform.scale(background, (objects.constants.WIDTH, int(objects.constants.HEIGHT)))
+        self.image = pygame.surface.Surface((objects.constants.WIDTH, int(objects.constants.HEIGHT)))
         self.rect = self.image.get_rect()
 
         self.all_sprites = pygame.sprite.Group()

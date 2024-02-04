@@ -15,7 +15,7 @@ from objects.surfaces import Ground, Ceil, NewBest
 if __name__ == '__main__':
     objects.constants.init_variables()
     running = True
-    screen = pygame.display.set_mode((1500, 1500 / 16 * 9), pygame.SCALED, vsync=1)
+    screen = pygame.display.set_mode((objects.constants.WIDTH, objects.constants.HEIGHT), pygame.SCALED, vsync=1)
     clock = pygame.time.Clock()
     pygame.init()
     main_menu = MainMenu()
