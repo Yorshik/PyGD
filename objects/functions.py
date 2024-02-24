@@ -350,6 +350,12 @@ def draw(scr: pygame.Surface, dct):
                 case 'Ship' | 'Wave':
                     scr.blit(dct['ceil'], pygame.rect.Rect(0, 0, WIDTH, objects.constants.SHIP_WAVE_CEIL))
             dct['blockgroup'].draw(scr)
+            dct['inclinedplanegroup'].draw(scr)
+            dct['spikegroup'].draw(scr)
+            dct['portalgroup'].draw(scr)
+            dct['jumppudgroup'].draw(scr)
+            dct['orbgroup'].draw(scr)
+            dct['coingroup'].draw(scr)
             dct['player_group'].draw(scr)
             scr.blit(dct['blackout'], (0, 0))
             dct['pause_menu'].draw(scr, dct)

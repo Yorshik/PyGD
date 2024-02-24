@@ -32,11 +32,19 @@ class PauseMenu(pygame.surface.Surface):
         objects.constants.STATUS = 'GAME'
         pygame.mixer.music.unpause()
 
-    def exit(self, _):
+    def exit(self, dct):
         objects.constants.STATUS = 'MAIN'
         pygame.mixer.music.load(self.music)
         pygame.mixer.music.set_volume(0.1)  # Устанавливаем начальную громкость
         pygame.mixer.music.play(-1)
+        dct['coingroup'] = pygame.sprite.Group()
+        dct['spikegroup'] = pygame.sprite.Group()
+        dct['blockgroup'] = pygame.sprite.Group()
+        dct['inclinedplanegroup'] = pygame.sprite.Group()
+        dct['portalgroup'] = pygame.sprite.Group()
+        dct['orbgroup'] = pygame.sprite.Group()
+        dct['jumppudgroup'] = pygame.sprite.Group()
+        dct['endgroup'] = pygame.sprite.Group()
 
     def handle_event(self, event, dct):
         if event.type == pygame.KEYDOWN:
